@@ -1,0 +1,567 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Darshan Ramakrishnaiah — M.S. Electrical Engineering at Columbia. RTL-to-GDS digital design, physical design and timing signoff across TSMC 65nm, GlobalFoundries 12nm FinFET and GF180.">
+<meta name="author" content="Darshan Ramakrishnaiah">
+<meta name="theme-color" content="#F6F8F7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0D1211" media="(prefers-color-scheme: dark)">
+<link rel="canonical" href="https://darshanram008.github.io/">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='4' fill='%231D5C4C'/%3E%3Crect x='9' y='9' width='14' height='14' rx='1.5' fill='none' stroke='%23F6F8F7' stroke-width='2'/%3E%3Cg stroke='%23F6F8F7' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='M13 9V5M19 9V5M13 27v-4M19 27v-4M9 13H5M9 19H5M27 13h-4M27 19h-4'/%3E%3C/g%3E%3C/svg%3E">
+<meta property="og:type" content="profile">
+<meta property="og:title" content="Darshan Ramakrishnaiah">
+<meta property="og:description" content="Darshan Ramakrishnaiah — M.S. Electrical Engineering at Columbia. RTL-to-GDS digital design, physical design and timing signoff across TSMC 65nm, GlobalFoundries 12nm FinFET and GF180.">
+<meta property="og:url" content="https://darshanram008.github.io/">
+<meta name="twitter:card" content="summary">
+<title>Darshan Ramakrishnaiah</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Serif:wght@500;600&display=swap">
+<style>
+  :root{color-scheme:light dark;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+  img{max-width:100%}
+  [hidden]{display:none!important}
+  :root{
+    --ground:#F6F8F7;
+    --surface:#FFFFFF;
+    --ink:#131817;
+    --ink-2:#3A4644;
+    --muted:#63736F;
+    --rule:#D9E0DD;
+    --rule-soft:#E9EEEC;
+    --accent:#1D5C4C;
+    --accent-soft:#E4EFEA;
+    --metal:#A05A2C;
+    --metal-soft:#F4E9E0;
+    --serif:"IBM Plex Serif",Georgia,"Times New Roman",serif;
+    --sans:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+    --mono:"IBM Plex Mono",ui-monospace,"SFMono-Regular",Menlo,Consolas,monospace;
+    --rail:13.5rem;
+  }
+  @media (prefers-color-scheme:dark){
+    :root:not([data-theme="light"]){
+      --ground:#0D1211;
+      --surface:#141A19;
+      --ink:#E9EFEC;
+      --ink-2:#C2CDC9;
+      --muted:#93A29E;
+      --rule:#26302E;
+      --rule-soft:#1C2423;
+      --accent:#6CC1A6;
+      --accent-soft:#172C26;
+      --metal:#DD8E58;
+      --metal-soft:#2A1F18;
+    }
+  }
+  :root[data-theme="dark"]{
+    --ground:#0D1211;
+    --surface:#141A19;
+    --ink:#E9EFEC;
+    --ink-2:#C2CDC9;
+    --muted:#93A29E;
+    --rule:#26302E;
+    --rule-soft:#1C2423;
+    --accent:#6CC1A6;
+    --accent-soft:#172C26;
+    --metal:#DD8E58;
+    --metal-soft:#2A1F18;
+  }
+
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    background:var(--ground);
+    color:var(--ink);
+    font-family:var(--sans);
+    font-size:15px;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:60rem;margin:0 auto;padding-inline:20px}
+  a{color:inherit}
+  h1,h2,h3{font-family:var(--serif);font-weight:600;text-wrap:balance;margin:0}
+  p{margin:0}
+
+  /* ---- masthead ---- */
+  .bar{
+    position:sticky;top:env(safe-area-inset-top,0px);z-index:20;
+    background:color-mix(in srgb,var(--ground) 88%,transparent);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--rule);
+  }
+  .bar-in{display:flex;align-items:center;gap:1rem;justify-content:space-between;
+    padding-block:.65rem}
+  .sig{font-family:var(--mono);font-size:.78rem;letter-spacing:.09em;text-transform:uppercase;
+    color:var(--ink);text-decoration:none;white-space:nowrap}
+  .barnav{display:flex;gap:1.1rem;font-family:var(--mono);font-size:.72rem;
+    letter-spacing:.07em;text-transform:uppercase}
+  .barnav a{color:var(--muted);text-decoration:none;padding-block:2px;border-bottom:1px solid transparent}
+  .barnav a:hover{color:var(--ink);border-bottom-color:var(--accent)}
+  @media (max-width:640px){.barnav{display:none}}
+
+  /* ---- hero ---- */
+  .hero{padding-block:3.6rem 2.4rem;border-bottom:1px solid var(--rule)}
+  .eyebrow{font-family:var(--mono);font-size:.72rem;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--accent);margin-bottom:1rem}
+  .hero h1{font-size:clamp(2.1rem,6vw,3.3rem);line-height:1.07;letter-spacing:-.015em}
+  .hero .lede{margin-top:1.1rem;max-width:36em;font-size:1.05rem;color:var(--ink-2)}
+  .links{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1.6rem}
+  .links a{
+    font-family:var(--mono);font-size:.78rem;text-decoration:none;
+    border:1px solid var(--rule);padding:.36rem .7rem;color:var(--ink-2);
+    background:var(--surface);
+  }
+  .links a:hover{border-color:var(--accent);color:var(--accent)}
+
+  /* ---- signoff strip ---- */
+  .strip{border-bottom:1px solid var(--rule);padding-block:1.5rem}
+  .strip-cap{font-family:var(--mono);font-size:.7rem;letter-spacing:.1em;
+    text-transform:uppercase;color:var(--muted);margin-bottom:1rem}
+  .figs{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--rule)}
+  .fig{background:var(--ground);padding:.85rem 1rem .9rem}
+  .fig b{display:block;font-family:var(--mono);font-weight:600;font-size:1.25rem;
+    font-variant-numeric:tabular-nums;letter-spacing:-.01em;color:var(--metal)}
+  .fig span{display:block;font-family:var(--mono);font-size:.68rem;letter-spacing:.06em;
+    text-transform:uppercase;color:var(--muted);margin-top:.3rem}
+  @media (max-width:640px){.figs{grid-template-columns:repeat(2,1fr)}}
+
+  /* ---- sections ---- */
+  section{padding-block:3rem}
+  .sec-head{display:flex;align-items:baseline;gap:1rem;flex-wrap:wrap;
+    padding-bottom:.7rem;border-bottom:2px solid var(--ink);margin-bottom:2rem}
+  .sec-head h2{font-size:1.5rem;letter-spacing:-.01em}
+  .sec-head .note{font-family:var(--mono);font-size:.72rem;color:var(--muted);
+    letter-spacing:.05em;margin-left:auto}
+
+  /* ---- filter ---- */
+  .filter{display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:2rem}
+  .filter button{
+    font-family:var(--mono);font-size:.74rem;letter-spacing:.04em;
+    background:transparent;color:var(--muted);border:1px solid var(--rule);
+    padding:.34rem .7rem;cursor:pointer;
+  }
+  .filter button:hover{color:var(--ink);border-color:var(--ink-2)}
+  .filter button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);
+    color:var(--ground);font-weight:500}
+  :focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+  /* ---- entries ---- */
+  .entry{
+    display:grid;grid-template-columns:var(--rail) 1fr;gap:1.6rem;
+    padding-block:1.9rem;border-top:1px solid var(--rule-soft);
+  }
+  .entry:first-of-type{border-top:0;padding-top:.4rem}
+  .rail{font-family:var(--mono);font-size:.74rem;line-height:1.55;color:var(--muted)}
+  .rail .node{color:var(--metal);display:block}
+  .rail .yr{display:block;font-variant-numeric:tabular-nums}
+  .body h3{font-size:1.14rem;line-height:1.3;letter-spacing:-.005em}
+  .body p{margin-top:.6rem;color:var(--ink-2)}
+  .body p.method{color:var(--muted);font-size:.93rem}
+
+  /* results table */
+  .res{margin-top:1rem;border-top:1px solid var(--rule);width:100%;
+    border-collapse:collapse;font-family:var(--mono);font-size:.78rem}
+  .res td{border-bottom:1px solid var(--rule-soft);padding:.34rem 0;vertical-align:top}
+  .res td:first-child{color:var(--muted);letter-spacing:.03em;width:58%;padding-right:1rem}
+  .res td:last-child{text-align:right;font-variant-numeric:tabular-nums;
+    font-weight:500;color:var(--ink)}
+  .res td.hi{color:var(--metal)}
+
+  .open{margin-top:1rem;border-left:2px solid var(--metal);background:var(--metal-soft);
+    padding:.7rem .9rem;font-size:.88rem;color:var(--ink-2)}
+  .open b{font-family:var(--mono);font-size:.68rem;letter-spacing:.1em;
+    text-transform:uppercase;color:var(--metal);display:block;margin-bottom:.25rem;font-weight:600}
+
+  .tags{display:flex;flex-wrap:wrap;gap:.35rem;margin-top:.9rem}
+  .tags span{font-family:var(--mono);font-size:.68rem;letter-spacing:.04em;
+    color:var(--muted);border:1px solid var(--rule);padding:.12rem .42rem}
+
+  /* ---- publication ---- */
+  .pub{background:var(--surface);border:1px solid var(--rule);padding:1.2rem 1.3rem}
+  .pub .cite{font-family:var(--serif);font-size:1.02rem;line-height:1.45}
+  .pub .meta{font-family:var(--mono);font-size:.76rem;color:var(--muted);margin-top:.5rem}
+  .pub a{color:var(--accent)}
+
+  /* ---- skills ---- */
+  .skills{display:grid;gap:1px;background:var(--rule);border:1px solid var(--rule)}
+  .srow{background:var(--ground);display:grid;grid-template-columns:var(--rail) 1fr;
+    gap:1.2rem;padding:.9rem 1rem}
+  .srow dt{font-family:var(--mono);font-size:.72rem;letter-spacing:.08em;
+    text-transform:uppercase;color:var(--accent)}
+  .srow dd{margin:0;font-family:var(--mono);font-size:.8rem;line-height:1.8;color:var(--ink-2)}
+
+  /* ---- footer ---- */
+  footer{border-top:1px solid var(--rule);padding-block:2rem 3rem;
+    font-family:var(--mono);font-size:.74rem;color:var(--muted);
+    display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+  footer a{color:var(--muted)}
+
+  @media (max-width:720px){
+    .entry,.srow{grid-template-columns:1fr;gap:.7rem}
+    .rail{display:flex;flex-wrap:wrap;gap:.2rem 1rem}
+    .rail span{display:inline}
+    .srow{padding:1rem}
+  }
+  @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+
+  /* theme toggle — the hosted page has no viewer chrome of its own */
+  .tt{
+    font-family:var(--mono);font-size:.7rem;letter-spacing:.07em;text-transform:uppercase;
+    background:transparent;color:var(--muted);border:1px solid var(--rule);
+    padding:.28rem .6rem;cursor:pointer;white-space:nowrap;
+  }
+  .tt:hover{color:var(--ink);border-color:var(--ink-2)}
+</style>
+</head>
+<body>
+
+
+<div class="bar">
+  <div class="wrap bar-in">
+    <a class="sig" href="#top">Darshan Ramakrishnaiah</a>
+    <nav class="barnav">
+      <a href="#work">Work</a>
+      <a href="#experience">Experience</a>
+      <a href="#skills">Skills</a>
+      <a href="#education">Education</a>
+    </nav>
+    <button type="button" class="tt" id="theme-toggle">Dark</button>
+  </div>
+</div>
+
+<div id="top" class="wrap">
+  <header class="hero">
+    <div class="eyebrow">Digital design · Physical design · Timing signoff</div>
+    <h1>Silicon from RTL to signed-off GDS.</h1>
+    <p class="lede">M.S. Electrical Engineering at Columbia University, graduating December 2026. I build DSP datapaths in Verilog and SystemVerilog, push them through synthesis, place-and-route and physical verification, and close timing on the numbers below — TSMC 65nm, GlobalFoundries 12nm FinFET and GF180.</p>
+    <div class="links">
+      <a href="mailto:dr3412@columbia.edu">dr3412@columbia.edu</a>
+      <a href="https://github.com/darshanram008">github.com/darshanram008</a>
+      <a href="https://www.linkedin.com/in/ramakrishnaiah-darshan">LinkedIn</a>
+      <a href="https://doi.org/10.1080/23311916.2025.2490529">Publication</a>
+    </div>
+  </header>
+
+  <div class="strip">
+    <div class="strip-cap">Post-layout signoff — 1024-point FFT processor, TSMC 65nm</div>
+    <div class="figs">
+      <div class="fig"><b>153.8 MHz</b><span>f<sub>max</sub> at 6.5 ns</span></div>
+      <div class="fig"><b>+0.489 ns</b><span>Worst setup slack</span></div>
+      <div class="fig"><b>0.0949 mm²</b><span>Die area</span></div>
+      <div class="fig"><b>171.4 pJ</b><span>Per sample</span></div>
+    </div>
+  </div>
+
+  <section id="work">
+    <div class="sec-head">
+      <h2>Selected work</h2>
+      <span class="note">Filter by discipline</span>
+    </div>
+
+    <div class="filter" role="group" aria-label="Filter projects by discipline">
+      <button type="button" data-f="all" aria-pressed="true">All</button>
+      <button type="button" data-f="pd" aria-pressed="false">Physical design</button>
+      <button type="button" data-f="rtl" aria-pressed="false">RTL &amp; microarchitecture</button>
+      <button type="button" data-f="dv" aria-pressed="false">Verification &amp; signoff</button>
+      <button type="button" data-f="emb" aria-pressed="false">Embedded</button>
+    </div>
+
+    <div id="projects">
+
+      <article class="entry" data-tags="pd rtl dv">
+        <div class="rail">
+          <span class="node">TSMC 65nm CMOS</span>
+          <span>Columbia — Advanced Digital Circuits</span>
+          <span class="yr">2025–2026</span>
+        </div>
+        <div class="body">
+          <h3>1024-Point Radix-2 FFT Processor — RTL to GDS</h3>
+          <p>A memory-based FFT that reuses one radix-2 decimation-in-time butterfly across all ten stages: address generator, two 512×32 data SRAM banks, a 512-entry twiddle ROM, the butterfly core and an eleven-state controller FSM. 16-bit fixed point, Q1.15 in, Q9.7 out.</p>
+          <p class="method">Synthesized in Design Compiler against the 65nm library with SRAM compiler models black-boxed, placed and routed with clock tree synthesis, then signed off in PrimeTime on extracted parasitics with propagated clocks and OCV analysis. Verified at three stages — RTL, post-synthesis netlist and post-layout netlist — against a MATLAB <code>fft()</code> golden reference. Calibre DRC and LVS clean: 560,773 layout instances matched 549,051 source instances with all 178 ports corresponding, metal density violations around the SRAM macros waived per foundry guidance.</p>
+          <table class="res">
+            <tr><td>Critical path — SRAM out → twiddle multiply → carry chain</td><td>6.01 ns</td></tr>
+            <tr><td>Worst setup slack</td><td class="hi">+0.489 ns</td></tr>
+            <tr><td>Throughput / compute density</td><td>3.75 MS/s · 39.5 MS/s/mm²</td></tr>
+            <tr><td>Total power (leakage 64.8%)</td><td>642.7 µW</td></tr>
+            <tr><td>Accuracy vs MATLAB — average NRMSE</td><td class="hi">0.0290%</td></tr>
+            <tr><td>Pre- → post-layout energy</td><td>568 → 171.4 pJ/sample</td></tr>
+            <tr><td>Pre- → post-layout area</td><td>0.2358 → 0.0949 mm²</td></tr>
+          </table>
+          <div class="open">
+            <b>Open issues, honestly</b>
+            48 hold violations at the SRAM macro input pins, worst −0.115 ns. Root-caused to a 40 ps testbench input delay that does not cover the SRAM hold requirement plus clock-tree insertion delay — it would not appear in real SoC integration, where the driving module's clock-to-out constrains the path. One removal violation at −0.067 ns on asynchronous reset deassertion, plus max-cap and max-transition violations on the high-fanout controller nets that drive both SRAMs.
+          </div>
+          <div class="tags"><span>Design Compiler</span><span>PrimeTime</span><span>Calibre</span><span>ModelSim</span><span>SRAM macro integration</span></div>
+        </div>
+      </article>
+
+      <article class="entry" data-tags="pd dv">
+        <div class="rail">
+          <span class="node">GlobalFoundries 12nm FinFET</span>
+          <span>Columbia — Embedded Scalable Platforms</span>
+          <span class="yr">Spring 2026</span>
+        </div>
+        <div class="body">
+          <h3>ESP-Chiplets — Physical Design of a 2×2 Chiplet SoC</h3>
+          <p>Full HLS-to-GDS flow on Columbia's ESP tile-based platform, covering processor, accelerator, memory, shared-local-memory and auxiliary I/O tiles. Two variants were built under identical constraints — one with four bidirectional inter-chiplet links, one without — for a controlled comparison of the interconnect.</p>
+          <p class="method">High-level synthesis for the accelerator tiles, Genus synthesis, Innovus place-and-route, Tempus static timing analysis across PVT corners. Integrated ASIC memory macros and I/O cells, adapting the wrappers to the ESP memory protocol and validating through generated testbenches. Switching activity was back-annotated from RTL and gate-level simulation into power analysis, then combined with hop latency and NoC topology to compute energy per bit per hop. Work with Nainika Kandarpa.</p>
+          <div class="tags"><span>Genus</span><span>Innovus</span><span>Tempus</span><span>PVT corners</span><span>Memory macro &amp; I/O integration</span></div>
+        </div>
+      </article>
+
+      <article class="entry" data-tags="pd rtl dv">
+        <div class="rail">
+          <span class="node">GF180MCU open PDK</span>
+          <span>SSCS Chipathon 2026</span>
+          <span class="yr">2026</span>
+        </div>
+        <div class="body">
+          <h3>Min-Area DFT-s-OFDM Transceiver — Mixed-Radix Transform Engine</h3>
+          <p>One shared butterfly runs both radix-2 and radix-3 to compute DFT12, FFT64 and IFFT64 on the same datapath, folding three transforms onto a single arithmetic core for minimum area. A control FSM decodes commands and back-pressures the input over a ready/valid handshake while the SRAMs are busy.</p>
+          <p class="method">Ran a thirteen-test regression in Icarus Verilog against Python golden models and foundry SRAM models, covering the OFDM transmit and receive paths end to end. Executed the full RTL-to-GDSII flow in GlobalFoundries 180nm with LibreLane and OpenROAD, with post-route ECOs and incremental re-routing scripted through OpenDB in Tcl and Python.</p>
+          <table class="res">
+            <tr><td>Die area against a 1.25 mm² budget</td><td class="hi">1.223 mm²</td></tr>
+            <tr><td>Timing closure</td><td>38.4 MHz, zero setup and hold violations</td></tr>
+            <tr><td>Physical verification</td><td>Magic DRC and LVS clean</td></tr>
+          </table>
+          <div class="tags"><span>OpenROAD</span><span>LibreLane</span><span>OpenDB</span><span>Magic</span><span>Icarus Verilog</span></div>
+        </div>
+      </article>
+
+      <article class="entry" data-tags="pd dv">
+        <div class="rail">
+          <span class="node">TSMC 65nm CMOS</span>
+          <span>Columbia — Digital VLSI Circuits</span>
+          <span class="yr">Fall 2025</span>
+        </div>
+        <div class="body">
+          <h3>Full-Custom 8-Bit Microprocessor Core — Schematic to Layout</h3>
+          <p>Transistor-level design of an 8-bit adder, level-sensitive latch, tristate bus driver, 3-to-1 multiplexer, SRAM block, shifter and PLA instruction decoder, clocked on two-phase non-overlapping phi1/phi2 with phi1-stable control over a shared internal bus. Work with Athul Raj M R.</p>
+          <p class="method">DRC and LVS in Calibre, post-layout functional verification in UltraSim on capacitance-only extracted parasitics, critical-path timing in Spectre. The testbench drives the 8-bit bus from two ADCs against a 6-bit instruction set, holding the tristate buffer at Hi-Z to avoid contention; load/store, shift and ADD writeback all verified. A companion study on TSMC N16 FinFET covered FO4 delay estimation, subthreshold-slope extraction at 0.8 V and a DRC/LVS-clean four-finned inverter layout.</p>
+          <table class="res">
+            <tr><td>Critical path — latch → adder → mux</td><td class="hi">350 ps</td></tr>
+            <tr><td>f<sub>max</sub>, ADD opcode verified functional</td><td>≈1.4 GHz</td></tr>
+            <tr><td>Core area</td><td>135 µm × 56 µm</td></tr>
+            <tr><td>Max dynamic / static power</td><td>4 mW · ≈1.4 mW</td></tr>
+          </table>
+          <div class="tags"><span>Virtuoso</span><span>Spectre</span><span>UltraSim</span><span>Calibre</span><span>FinFET</span></div>
+        </div>
+      </article>
+
+      <article class="entry" data-tags="rtl dv">
+        <div class="rail">
+          <span class="node">TSMC 65nm CMOS</span>
+          <span>Columbia</span>
+          <span class="yr">2025</span>
+        </div>
+        <div class="body">
+          <h3>64-Tap Fixed-Point FIR Filter with Clock Domain Crossing</h3>
+          <p>A dual-clock FIFO carries 10 kS/s samples from a 10 kHz input domain into an 800 kHz core domain. Coefficient memory in Q1.15 feeds a resource-shared MAC — one multiplier, one adder, stepped sequentially across taps to hold area down — alongside a register file and a five-state controller FSM.</p>
+          <p class="method">Inputs and coefficients in Q1.15, output in Q7.9, with wider intermediates to limit rounding error. Verified with built-in self-test, randomized input and coefficient vectors, and a MATLAB signature check; pre- and post-synthesis waveforms matched. Synthesized in Design Compiler from Tcl scripts, with setup and hold analysis in PrimeTime.</p>
+          <table class="res">
+            <tr><td>Error against MATLAB signature</td><td class="hi">&lt; 0.01%</td></tr>
+            <tr><td>Timing</td><td>Setup and hold met; external clock the limit</td></tr>
+          </table>
+          <div class="tags"><span>Dual-clock FIFO</span><span>BIST</span><span>Randomized stimulus</span><span>Tcl</span><span>PrimeTime</span></div>
+        </div>
+      </article>
+
+      <article class="entry" data-tags="rtl dv">
+        <div class="rail">
+          <span class="node">Catapult HLS · Xilinx VC707</span>
+          <span>Columbia — System on Chip Platforms</span>
+          <span class="yr">Fall 2025</span>
+        </div>
+        <div class="body">
+          <h3>BERT-Tiny Feed-Forward Accelerator — HLS Design-Space Exploration</h3>
+          <p>A SystemC accelerator for the fully-connected feed-forward layer of BERT, synthesized in Catapult HLS into two Pareto-optimal micro-architectures — SMALL and FAST — from a single source through preprocessor-switched configurations.</p>
+          <p class="method">Swept target clock period, fixed-point precision, loop unrolling and pipelining, private local memory organization, and DMA width from 32 to 512 bits with varying channel counts. Designs were scored on weighted FPGA resource use (BRAM18/36, LUT, FF, latch, DSP) against effective latency, behind a hard validity gate of at least 70% inference accuracy plus behavioral-to-RTL co-simulation equivalence, then integrated into a complete ESP SoC and prototyped on a VC707.</p>
+          <div class="tags"><span>SystemC</span><span>Catapult HLS</span><span>DMA sizing</span><span>Co-simulation</span><span>Vivado</span></div>
+        </div>
+      </article>
+
+      <article class="entry" data-tags="rtl emb">
+        <div class="rail">
+          <span class="node">Intel Cyclone V SoC FPGA</span>
+          <span>Columbia — Embedded Systems</span>
+          <span class="yr">Spring 2026</span>
+        </div>
+        <div class="body">
+          <h3>AHRS Attitude Accelerator — Fixed-Point Kalman Filter in Fabric</h3>
+          <p>A fixed-point Kalman filter in SystemVerilog fuses gyroscope, accelerometer and magnetometer data into roll, pitch and yaw on a Cyclone V. The IMU is modeled in C on the HPS with injected bias, drift and white Gaussian noise, streaming synthetic frames to the fabric over Avalon through a memory-mapped register and FIFO interface.</p>
+          <p class="method">A VGA rendering engine drives a 640×480 at 60 Hz primary flight display: a horizon line rotating with roll and translating with pitch against a pitch ladder, plus a heading strip with a moving yaw cursor. Post-synthesis timing and RTL issues were debugged down to stable roll and pitch convergence within 30 iterations at 50 MHz. Team of four.</p>
+          <div class="tags"><span>SystemVerilog</span><span>Avalon bus</span><span>Sensor fusion</span><span>VGA timing</span></div>
+        </div>
+      </article>
+
+      <article class="entry" data-tags="emb">
+        <div class="rail">
+          <span class="node">ArduPilot · custom electronics</span>
+          <span>Ramaiah Institute of Technology</span>
+          <span class="yr">2022–2023</span>
+        </div>
+        <div class="body">
+          <h3>Autonomous Recharging of Multirotor UAVs</h3>
+          <p>A clean-sheet autonomous recharge system: docking hardware, state-of-charge-triggered mission logic and a return-to-charge algorithm on an open-source flight stack with custom electronics, validated end to end through SITL simulation and outdoor flight testing. Published in <em>Cogent Engineering</em>.</p>
+          <div class="tags"><span>Flight stack</span><span>SITL</span><span>Mission logic</span><span>Peer-reviewed</span></div>
+        </div>
+      </article>
+
+      <article class="entry" data-tags="emb">
+        <div class="rail">
+          <span class="node">Fixed-wing UAV avionics</span>
+          <span>Albatross UAV Student Club</span>
+          <span class="yr">2019–2023</span>
+        </div>
+        <div class="body">
+          <h3>Avionics Lead, Albatross UAV</h3>
+          <p>Led avionics for a team of twelve building autonomous fixed-wing UAVs on ArduPilot — wiring harness design, PCB integration and bench bring-up — across three national competitions spanning autonomous navigation, payload delivery and mission planning.</p>
+          <div class="tags"><span>Harness design</span><span>PCB integration</span><span>Bench bring-up</span></div>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <section id="experience">
+    <div class="sec-head"><h2>Experience</h2></div>
+
+    <article class="entry">
+      <div class="rail"><span class="yr">Jun – Aug 2026</span><span>Chapel Hill, NC</span></div>
+      <div class="body">
+        <h3>Hardware Intern — Brain Computer Interface Lab, UNC Chapel Hill</h3>
+        <p>Integrated the neorv32 RISC-V core across the DSP and sensing pipelines, reaching 85% lint and formal closure in JasperGold Superlint. Designed a Wishbone register block interfacing neorv32 with the sensing modules and cleared the lint checks and errors it raised. Worked with the analog teams on cross-functional specifications and timing.</p>
+      </div>
+    </article>
+
+    <article class="entry">
+      <div class="rail"><span class="yr">Aug 2023 – Jun 2025</span><span>Bengaluru, India</span></div>
+      <div class="body">
+        <h3>Hardware Engineer — National Aerospace Laboratories</h3>
+        <p>Owned ground-up hardware integration of the FAA-approved Veronte autopilot on a high-aspect-ratio UAV — sensor fusion verification, servo and actuator mapping, failsafe architecture, telemetry harness and full system bring-up — which took the platform to its first autonomous flight at 25,000 ft MSL. Redesigned the ArduPilot flight control laws in C++ for a non-standard airframe and validated stability through SIL, HIL and on-vehicle flight test, alongside telemetry tracking utilities and PID tuning from flight logs.</p>
+      </div>
+    </article>
+
+    <article class="entry">
+      <div class="rail"><span class="yr">Jan – May 2026</span><span>Columbia University</span></div>
+      <div class="body">
+        <h3>Research Assistant — Motor Drives and Power Systems Lab</h3>
+        <p>Extended the PMSM piecewise-affine flux-map framework from a planar (i<sub>d</sub>, i<sub>q</sub>) formulation to a rotor-angle-dependent volumetric simplicial one in MATLAB, capturing slot and saturation harmonics. Built the fitting pipeline — Delaunay triangulation with signed simplex-volume enforcement, local Jacobian estimation and convex MAE optimization under per-simplex energy constraints — and swept rotor-angle sampling density from 2 to 45, where finer resolution bought reconstruction fidelity at the cost of simplex count. Wrote the dSPACE MAT-file post-processing with a moving-mean steady-state criterion, and assembled and validated the resolver, ehub, HUB filter and WHUB boards for closed-loop data collection.</p>
+      </div>
+    </article>
+
+    <article class="entry">
+      <div class="rail"><span class="yr">Feb – Aug 2023</span><span>Bengaluru, India</span></div>
+      <div class="body">
+        <h3>Embedded Systems Intern — EMO Energy</h3>
+        <p>Designed and assembled 60 A current-sense and onboard diagnostic PCBs in KiCAD to IPC-2221, integrated into production HV battery packs for real-time pack monitoring. Wrote embedded C firmware on PIC18 MCUs implementing CAN and UART for BMS diagnostics, then validated the hardware end to end on production packs through functional test, current-sense accuracy and bus integrity checks.</p>
+      </div>
+    </article>
+
+    <article class="entry">
+      <div class="rail"><span class="yr">Jul – Aug 2026</span><span>Columbia University</span></div>
+      <div class="body">
+        <h3>Summer Student Leader &amp; Teaching Assistant</h3>
+        <p>Taught a PCB design elective to freshman students and served as Teaching Assistant for the Autonomous Robotics course.</p>
+      </div>
+    </article>
+  </section>
+
+  <section id="publication">
+    <div class="sec-head"><h2>Publication</h2></div>
+    <div class="pub">
+      <p class="cite">Darshan R., V. George, D. Soman, P. N., S. Sree, A. H. — “Autonomous Recharging of Multirotor Unmanned Aerial Vehicles to Extend Operational Time.”</p>
+      <p class="meta"><em>Cogent Engineering</em>, 2025, 12:1, 2490529 · <a href="https://doi.org/10.1080/23311916.2025.2490529">doi.org/10.1080/23311916.2025.2490529</a></p>
+    </div>
+  </section>
+
+  <section id="skills">
+    <div class="sec-head"><h2>Skills</h2><span class="note">Every item backed by a project above</span></div>
+    <dl class="skills">
+      <div class="srow"><dt>HDL &amp; languages</dt><dd>SystemVerilog · Verilog · VHDL · SystemC · C · C++ · MATLAB · Python · Tcl · Perl · Bash · Makefile · Git</dd></div>
+      <div class="srow"><dt>RTL &amp; microarchitecture</dt><dd>Datapath and control logic · FSM design · fixed-point arithmetic (Q1.15, Q7.9, Q9.7) · DSP architectures — FFT, FIR, MAC · SRAM interfacing and banking · clock domain crossing · dual-clock FIFO · ready/valid handshake · low-power design · design space exploration</dd></div>
+      <div class="srow"><dt>Physical design</dt><dd>Floorplanning · place &amp; route · clock tree synthesis · timing closure · PPA analysis · parasitic extraction · memory macro and I/O cell integration · physical verification (DRC/LVS) · post-route ECO</dd></div>
+      <div class="srow"><dt>STA &amp; signoff</dt><dd>Setup and hold analysis · SDC constraint development · OCV · PVT corner analysis · SDF back-annotation · power analysis with switching-activity annotation · hold fixing</dd></div>
+      <div class="srow"><dt>Verification</dt><dd>Self-checking testbenches · golden-reference comparison against MATLAB and Python · regression suites · randomized stimulus · BIST · assertions · lint closure · formal verification · UVM basics</dd></div>
+      <div class="srow"><dt>EDA tools</dt><dd>Synopsys Design Compiler, PrimeTime · Cadence Virtuoso, Spectre, UltraSim, Genus, Innovus, Tempus · Siemens Calibre, ModelSim, Catapult HLS · JasperGold, Superlint · OpenROAD, LibreLane, OpenDB, Magic, Icarus Verilog</dd></div>
+      <div class="srow"><dt>Nodes &amp; PDKs</dt><dd>TSMC 65nm · TSMC N16 FinFET · GlobalFoundries 12nm FinFET · GF180MCU</dd></div>
+      <div class="srow"><dt>FPGA &amp; embedded</dt><dd>Xilinx Vivado, VC707 · Intel Cyclone V · Avalon and Wishbone buses · neorv32 RISC-V · PIC18 · STM32 · CAN · UART · SPI · KiCAD · IPC-2221 · dSPACE · Simulink · LTspice</dd></div>
+    </dl>
+  </section>
+
+  <section id="education">
+    <div class="sec-head"><h2>Education</h2></div>
+    <article class="entry">
+      <div class="rail"><span class="yr">Aug 2025 – Dec 2026</span><span>New York, USA</span></div>
+      <div class="body">
+        <h3>Columbia University — M.S. Electrical Engineering</h3>
+        <p class="method">Digital VLSI Circuits · System on Chip Platforms · Advanced Digital Circuits · Advanced Logic Design · Embedded Scalable Platforms · Embedded Systems · Analog Electronic Circuits</p>
+      </div>
+    </article>
+    <article class="entry">
+      <div class="rail"><span class="yr">Aug 2019 – Jul 2023</span><span>Bengaluru, India</span></div>
+      <div class="body">
+        <h3>Ramaiah Institute of Technology — B.E. Electrical Engineering</h3>
+        <p class="method">Electronic Devices and Circuits · MOS Fabrication and Characterization · 8086 Microprocessor · Control Systems · Microcontroller Applications · Neural Networks</p>
+      </div>
+    </article>
+  </section>
+
+  <footer>
+    <span>Darshan Ramakrishnaiah — New York, NY</span>
+    <span><a href="mailto:dr3412@columbia.edu">dr3412@columbia.edu</a></span>
+  </footer>
+</div>
+
+<script>
+(function(){
+  var buttons = Array.prototype.slice.call(document.querySelectorAll('.filter button'));
+  var cards = Array.prototype.slice.call(document.querySelectorAll('#projects .entry'));
+  function apply(f){
+    cards.forEach(function(c){
+      var t = (c.getAttribute('data-tags') || '').split(' ');
+      c.hidden = !(f === 'all' || t.indexOf(f) !== -1);
+    });
+    var first = true;
+    cards.forEach(function(c){
+      c.style.borderTop = '';
+      c.style.paddingTop = '';
+      if(!c.hidden && first){ c.style.borderTop = '0'; c.style.paddingTop = '0.4rem'; first = false; }
+    });
+  }
+  buttons.forEach(function(b){
+    b.addEventListener('click', function(){
+      buttons.forEach(function(o){ o.setAttribute('aria-pressed', String(o === b)); });
+      apply(b.getAttribute('data-f'));
+    });
+  });
+  apply('all');
+})();
+</script>
+
+<script>
+(function(){
+  var root = document.documentElement, btn = document.getElementById('theme-toggle');
+  function stored(){ try { return localStorage.getItem('theme'); } catch(e){ return null; } }
+  function label(){
+    var t = root.getAttribute('data-theme');
+    var dark = t === 'dark' || (!t && window.matchMedia('(prefers-color-scheme: dark)').matches);
+    btn.textContent = dark ? 'Light' : 'Dark';
+    btn.setAttribute('aria-label', dark ? 'Switch to light theme' : 'Switch to dark theme');
+  }
+  var s = stored();
+  if(s === 'dark' || s === 'light') root.setAttribute('data-theme', s);
+  label();
+  btn.addEventListener('click', function(){
+    var t = root.getAttribute('data-theme');
+    var dark = t === 'dark' || (!t && window.matchMedia('(prefers-color-scheme: dark)').matches);
+    var next = dark ? 'light' : 'dark';
+    root.setAttribute('data-theme', next);
+    try { localStorage.setItem('theme', next); } catch(e){}
+    label();
+  });
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Page not found — Darshan Ramakrishnaiah</title>
+<meta name="robots" content="noindex">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Serif:wght@600&display=swap">
+<style>
+  :root{
+    color-scheme:light dark;
+    --ground:#F6F8F7; --ink:#131817; --muted:#63736F; --accent:#1D5C4C; --rule:#D9E0DD;
+  }
+  @media (prefers-color-scheme:dark){
+    :root:not([data-theme="light"]){
+      --ground:#0D1211; --ink:#E9EFEC; --muted:#93A29E; --accent:#6CC1A6; --rule:#26302E;
+    }
+  }
+  :root[data-theme="dark"]{
+    --ground:#0D1211; --ink:#E9EFEC; --muted:#93A29E; --accent:#6CC1A6; --rule:#26302E;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; min-height:100vh; background:var(--ground); color:var(--ink);
+    display:flex; align-items:center; justify-content:center;
+    padding:20px; text-align:center;
+    font-family:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+  }
+  .code{font-size:.72rem; letter-spacing:.14em; text-transform:uppercase; color:var(--accent)}
+  h1{
+    font-family:"IBM Plex Serif",Georgia,serif; font-weight:600;
+    font-size:clamp(1.6rem,5vw,2.3rem); margin:1rem 0 .6rem; letter-spacing:-.01em;
+  }
+  p{color:var(--muted); font-size:.85rem; margin:0 0 1.6rem; line-height:1.7}
+  a{
+    display:inline-block; font-size:.78rem; text-decoration:none; color:var(--ink);
+    border:1px solid var(--rule); padding:.4rem .8rem;
+  }
+  a:hover{border-color:var(--accent); color:var(--accent)}
+</style>
+</head>
+<body>
+  <main>
+    <div class="code">HTTP 404 · no route</div>
+    <h1>This path does not resolve.</h1>
+    <p>Nothing is placed at this address.</p>
+    <a href="/">Back to the portfolio</a>
+  </main>
+</body>
+</html>
